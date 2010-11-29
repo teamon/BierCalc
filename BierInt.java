@@ -1,38 +1,41 @@
-public class Compl {
-    public class ComplException extends Exception {
-        public ComplException(String message){
-            super(message);
-        }
+class BierIntException extends Exception {
+    public BierIntException(String message){
+        super(message);
     }
-    
-    
+}
+
+public class BierInt {
     public int[] bits;
     public int base;
     
-    public Compl(int base){
+    public BierInt(int base){
         this(base, new int[]{0});
     }
     
-    public Compl(int base, String raw){
+    public BierInt(int base, String raw){
         this.base = base;
         this.bits = stringToBits(raw);
     }
     
-    public Compl(int base, int[] bits){
+    public BierInt(int base, int[] bits){
         this.base = base;
         this.bits = bits;
     }
     
     public int toInt(){
-        if(isNegative()) return -bitsToInt(bitsComplacement()); // negative number
+        if(isNegative()) return -bitsToInt(bitsBierIntacement()); // negative number
         else return bitsToInt(bits);
     }
     
     public boolean isNegative(){
         return bits[bits.length-1] >= base/2;
     }
+    
+    public BierInt BierIntacement(){
+        return new BierInt(base, bitsBierIntacement());
+    }
         
-    public int[] bitsComplacement(){
+    public int[] bitsBierIntacement(){
         int i;
         int[] c = new int[bits.length];
         
@@ -67,27 +70,30 @@ public class Compl {
     public String toString(){        
         StringBuffer s = new StringBuffer();
         for(int i=bits.length-1; i>=0; i--){
-            s.append(bits[i]);
+            if(bits[i] > 9) s.append((char)(bits[i]+55));
+            else s.append(bits[i]);            
         }
         return s.toString();
     }
     
-    public Compl add(Compl that) throws ComplException { 
-        p(this.base);
-        p(that.base);
-        if(this.base != that.base) throw new ComplException("Invalid base");
+    public BierInt add(BierInt that) throws BierIntException { 
+        if(base != that.base) throw new BierIntException("Invalid base");
                
-        int size = Math.max(this.bitLength(), that.bitLength()) + 1;
+        int size = Math.max(bitLength(), that.bitLength()) + 1;
         int sum[] = new int[size];
         int c = 0;
         
         for(int i=0; i<size; i++){
-            int x = this.bitAt(i) + that.bitAt(i) + c;
+            int x = bitAt(i) + that.bitAt(i) + c;
             sum[i] = x % base;
             c = x / base;
         }
         
-        return new Compl(base, sum);
+        return new BierInt(base, sum);
+    }
+    
+    public BierInt subtract(BierInt that) throws BierIntException {
+        return this.add(that.BierIntacement());
     }
     
     
@@ -97,7 +103,12 @@ public class Compl {
         // Convert to int and reverse
         int[] bits = new int[len];
         for(int i=0; i<len; i++){
-            bits[i] = Integer.parseInt("" + str.charAt(len-i-1));
+            char c = str.charAt(len-i-1);
+            try {
+                bits[i] = Integer.parseInt("" + c);
+            } catch (NumberFormatException e){
+                bits[i] = Integer.decode("0x"+c);
+            }
         }
         
         return bits;
@@ -138,23 +149,42 @@ public class Compl {
         p(a);
     }
     
+    public static void display(char operator, BierInt a, BierInt b, BierInt c){
+        int size = Math.max(Math.max(a.toString().length(), b.toString().length()), c.toString().length()) + 2;
+                    
+        System.out.println(String.format("%" + size + "s = %" + size + "d", a.toString(), a.toInt()));
+        System.out.println(String.format(operator + "%" + (size-1) + "s = %" + size + "d", b.toString(), b.toInt()));
+        
+        for(int i=0, n = 2*size+3; i<n; i++) System.out.print("-");
+        System.out.println();
+
+        System.out.println(String.format("%" + size + "s = %" + size + "d", c.toString(), c.toInt()));
+    }
+    
     public static void main(String[] args) {
         try {
-            int base = Integer.parseInt(args[0]);
             
-            Compl a = new Compl(base, args[1]);
-            p("String: ", a.toString());
-            p("Int:    ", a.toInt());
-
-            Compl b = new Compl(base, args[2]);
-            p("String: ", b.toString());
-            p("Int:    ", b.toInt());
-        
-            Compl c = a.add(b);
-        
-            p("String: ", c.toString());
-            p("Int:    ", c.toInt());
-        } catch (ComplException e){
+            
+            
+            int base = Integer.parseInt(args[0]);
+            BierInt a = new BierInt(base, args[1]);
+            BierInt b = new BierInt(base, args[3]);
+            char operator = args[2].charAt(0);
+            
+            switch(operator){
+                case '+':
+                    display(operator, a, b, a.add(b));
+                    break;
+                    
+                case '-':
+                    display(operator, a, b, a.subtract(b));
+                    break;
+                    
+                default:
+                    throw new BierIntException("Operation not supported");
+                    // break;
+            }
+        } catch (BierIntException e){
             p("Error: " + e.getMessage());
         }
     }
