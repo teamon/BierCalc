@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mvn clean compile assembly:assembly
+mv target/biercalc-0.1.0-jar-with-dependencies.jar target/biercalc-0.1.0-`date +%Y%m%d%H%m`.jar

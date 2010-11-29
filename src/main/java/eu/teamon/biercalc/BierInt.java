@@ -1,3 +1,5 @@
+package eu.teamon.biercalc;
+
 class BierIntException extends Exception {
     public BierIntException(String message){
         super(message);
@@ -28,7 +30,8 @@ public class BierInt {
     }
     
     public boolean isNegative(){
-        return bits[bits.length-1] >= base/2;
+        if(bits.length != 0) return bits[bits.length-1] >= base/2;
+        else return false;
     }
     
     public BierInt BierIntacement(){
@@ -161,11 +164,9 @@ public class BierInt {
         System.out.println(String.format("%" + size + "s = %" + size + "d", c.toString(), c.toInt()));
     }
     
+    
     public static void main(String[] args) {
         try {
-            
-            
-            
             int base = Integer.parseInt(args[0]);
             BierInt a = new BierInt(base, args[1]);
             BierInt b = new BierInt(base, args[3]);

@@ -1,3 +1,7 @@
-# AK
+# BierCalc
 
-## javac Compl.java && java Compl [BASE] [A] [B]
+## Compile
+    mvn compile
+
+## Deploy
+    bin/deploy
