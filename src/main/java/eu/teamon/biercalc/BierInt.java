@@ -9,53 +9,53 @@ class BierIntException extends Exception {
 public class BierInt {
     public int[] bits;
     public int base;
-    
+
     public BierInt(int base){
         this(base, new int[]{0});
     }
-    
+
     public BierInt(int base, String raw){
         this.base = base;
         this.bits = stringToBits(raw);
     }
-    
+
     public BierInt(int base, int[] bits){
         this.base = base;
         this.bits = bits;
     }
-    
+
     public int toInt(){
-        if(isNegative()) return -bitsToInt(bitsBierIntacement()); // negative number
+        if(isNegative()) return -bitsToInt(bitsComplacement()); // negative number
         else return bitsToInt(bits);
     }
-    
+
     public boolean isNegative(){
         if(bits.length != 0) return bits[bits.length-1] >= base/2;
         else return false;
     }
-    
-    public BierInt BierIntacement(){
-        return new BierInt(base, bitsBierIntacement());
+
+    public BierInt Complacement(){
+        return new BierInt(base, bitsComplacement());
     }
-        
-    public int[] bitsBierIntacement(){
+
+    public int[] bitsComplacement(){
         int i;
         int[] c = new int[bits.length];
-        
+
         for(i=0; i<bits.length && bits[i]==0; i++){
             c[i] = bits[i];
         }
-        
+
         c[i] = base - bits[i];
         i++;
-        
+
         for(; i<bits.length; i++){
             c[i] = base - 1 - bits[i];
         }
-        
-        return c;        
+
+        return c;
     }
-    
+
     public int bitAt(int index){
         if(index >= bits.length) {
             if(isNegative()) return base-1;
@@ -64,42 +64,40 @@ public class BierInt {
             return bits[index];
         }
     }
-    
+
     public int bitLength(){
         return bits.length;
     }
-    
-    
-    public String toString(){        
+
+    public String toString(){
         StringBuffer s = new StringBuffer();
         for(int i=bits.length-1; i>=0; i--){
             if(bits[i] > 9) s.append((char)(bits[i]+55));
-            else s.append(bits[i]);            
+            else s.append(bits[i]);
         }
         return s.toString();
     }
-    
-    public BierInt add(BierInt that) throws BierIntException { 
+
+    public BierInt add(BierInt that) throws BierIntException {
         if(base != that.base) throw new BierIntException("Invalid base");
-               
+
         int size = Math.max(bitLength(), that.bitLength()) + 1;
         int sum[] = new int[size];
         int c = 0;
-        
+
         for(int i=0; i<size; i++){
             int x = bitAt(i) + that.bitAt(i) + c;
             sum[i] = x % base;
             c = x / base;
         }
-        
+
         return new BierInt(base, sum);
     }
-    
+
     public BierInt subtract(BierInt that) throws BierIntException {
-        return this.add(that.BierIntacement());
+        return this.add(that.Complacement());
     }
-    
-    
+
     // helper functions
     protected int[] stringToBits(String str){
         int len = str.length();
@@ -113,10 +111,10 @@ public class BierInt {
                 bits[i] = Integer.decode("0x"+c);
             }
         }
-        
+
         return bits;
     }
-    
+
     protected int bitsToInt(int[] b){
         int a = 0;
         for(int i=0; i<b.length; i++){
@@ -124,9 +122,7 @@ public class BierInt {
         }
         return a;
     }
-    
-    
-    
+
     public static void p(int[] a){
         System.out.print("[");
         if(a.length > 0){
@@ -137,16 +133,16 @@ public class BierInt {
         }
         System.out.println("]");
     }
-    
+
     public static void p(Object o){
         System.out.println(o);
     }
-    
+
     public static void p(String label, int[] a){
         System.out.print(label);
         p(a);
     }
-    
+
     public static void p(String label, Object a){
         System.out.print(label);
         p(a);
