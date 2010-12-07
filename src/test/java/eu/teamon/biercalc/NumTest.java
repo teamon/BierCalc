@@ -17,6 +17,26 @@ public class NumTest {
 		assertArrayEquals(b.bits, new int[]{1,1,1,0,1,0,1,1,0});
 		assertArrayEquals(b.intPartBits(), new int[]{1,1,1,0,1,0,1,1,0});
 		assertArrayEquals(b.fractPartBits(), new int[]{});
+		
+		Num c = new Num("0.01");
+		assertTrue(c.pointPos == 2);
+		assertArrayEquals(c.bits, new int[]{1,0});
+		assertArrayEquals(c.intPartBits(), new int[]{0});
+		assertArrayEquals(c.fractPartBits(), new int[]{0,1});
+		
+
+		Num d = new Num("0");
+		assertTrue(d.pointPos == 0);
+		assertArrayEquals(d.bits, new int[]{0});
+		assertArrayEquals(d.intPartBits(), new int[]{0});
+		assertArrayEquals(d.fractPartBits(), new int[]{});
+		
+
+		Num e = new Num("111.11");
+		assertTrue(e.pointPos == 2);
+		assertArrayEquals(e.bits, new int[]{1});
+		assertArrayEquals(e.intPartBits(), new int[]{1});
+		assertArrayEquals(e.fractPartBits(), new int[]{1,1});
 	}
 	
 	@Test
@@ -39,7 +59,9 @@ public class NumTest {
 	@Test
 	public void testToString(){
 		assertEquals(new Num("011010111.10011").toString(), "011010111.10011");
-		assertEquals(new Num("111010111.0").toString(), "111010111.0");
+		assertEquals(new Num("111010111.0").toString(), "1010111.0");
+		assertEquals(new Num("0").toString(), "0.0");
+		assertEquals(new Num("1").toString(), "1.0");
 	}
 	
 	@Test

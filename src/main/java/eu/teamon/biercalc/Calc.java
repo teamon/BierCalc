@@ -18,9 +18,6 @@ public class Calc {
 		int[] bBits;
 		int pointPos = 0;
 		
-		p(a.pointPos);
-		p(b.pointPos);
-				
 		if(a.pointPos == b.pointPos){
 			aBits = a.bits;
 			bBits = b.bits;
@@ -46,27 +43,17 @@ public class Calc {
 			sum[i] = x % a.base;
 			c = x / a.base;
 		}
-		
-		p(aBits);
-		p(bBits);
-		p(sum);
-		
+			
 		return new Num(a.base, sum, pointPos);
 	}
 	
 	
 	public static void main(String[] args){
-//		Num a = new Num(args[0]);
-//		Num b = new Num(args[1]);
-//		Num c = Calc.add(a, b);
-//		System.out.println(a);
-//		System.out.println(b);
-//		System.out.println(c);
-
-		int[] a = {1,0,1,1,1,1,1};
-		int[] b = {1,0,1,0,1,0,0,1,0,0,0,0};
-		
-		bitsCleanup(2, a);
-		bitsCleanup(2, b);
+		Num a = new Num(args[0]);
+		Num b = new Num(args[1]);
+		Num c = Calc.add(a, b);
+		System.out.println(a);
+		System.out.println(b);
+		System.out.println(c);
 	}
 }

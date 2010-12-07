@@ -46,6 +46,7 @@ public class Util {
  
     	return clean;
     }
+
 	
     public static void p(int[] a){
         System.out.print("[");
@@ -61,5 +62,9 @@ public class Util {
     
     public static void p(int a){
         System.out.println(a);
+    }
+    
+    public static void p(String s, int a){
+        System.out.println(s + " " + a);
     }
 }
