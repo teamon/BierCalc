@@ -55,34 +55,70 @@ public class Calc {
 		if(n.base != 2){
 			return numToFNum(n); // TODO: Call n.toBase(2);
 		}
+		
+		int sign;
+		if(n.isNegative()){
+			sign = 1;
+			n = n.complacement();
+		} else {
+			sign = 0;
+		}
 				
 		int[] man = new int[FNum.MAN_SIZE];
 		int exp=0;
-		
-		int[] intPart = n.intPartBits();
+
+		int[] intPart = cutLeadingZero(n.intPartBits());
+		int[] fractPart = n.fractPartBits();
 		
 		if(intPart.length == 1){
 			if(intPart[0] == 1){
-				
+				System.arraycopy(fractPart, 0, man, 0, fractPart.length);
+				exp = 0;
+			} else { // intPart[0] == 0
+				// liczba postaci 0.xxxxxx -> trzeba przesunac w prawo
+				int p = leadingZeros(fractPart);
+				System.arraycopy(fractPart, p, man, 0, fractPart.length-p);
+				exp = -p;
 			}
+		} else {
+			// przesuniecie przecinka w lewo
+			int p = intPart.length-1;
+			for(int i=0; i<p; i++){
+				man[i] = intPart[p-i-1];
+			}
+			
+			System.arraycopy(fractPart, 0, man, p, fractPart.length);			
+			exp = p;
 		}
 		
-		
-		
-		
-		
-		
-		
-		return new FNum(n.isNegative() ? 1 : 0, exp, man);
+		return new FNum(sign, exp, man);
 	}
 	
+	protected static int leadingZeros(int[] fract){
+		int i=0;
+		for(;i<fract.length && fract[i]==0; i++);
+		return i;
+	}
+	
+	protected static int[] cutLeadingZero(int[] intp){
+		if(intp.length == 1 || intp[intp.length-1] == 1){
+			return intp;
+		} else {
+			int[] res = new int[intp.length-1];
+			System.arraycopy(intp, 0, res, 0, res.length);
+			return res;
+		}
+	}
 	
 	public static void main(String[] args){
 		Num a = new Num(args[0]);
-		Num b = new Num(args[1]);
-		Num c = Calc.subtract(a, b);
+		FNum f = Calc.numToFNum(a);
 		System.out.println(a);
-		System.out.println(b);
-		System.out.println(c);
+		System.out.println(f);
+//		Num b = new Num(args[1]);
+//		Num c = Calc.subtract(a, b);
+//		System.out.println(a);
+//		System.out.println(b);
+//		System.out.println(c);
 	}
 }

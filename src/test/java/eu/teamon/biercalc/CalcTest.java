@@ -17,4 +17,11 @@ public class CalcTest {
 		assertEquals(Calc.subtract(new Num("0"), new Num("111.11")), new Num("0.01"));
 		assertEquals(Calc.subtract(new Num("01000.00"), new Num("0111.11")), new Num("0.01"));	
 	}
+	
+	@Test
+	public void testCutLeadingZero(){
+		assertArrayEquals(Calc.cutLeadingZero(new int[]{0}), new int[]{0});
+		assertArrayEquals(Calc.cutLeadingZero(new int[]{0,1}), new int[]{0,1});
+		assertArrayEquals(Calc.cutLeadingZero(new int[]{1,0}), new int[]{1});
+	}
 }
