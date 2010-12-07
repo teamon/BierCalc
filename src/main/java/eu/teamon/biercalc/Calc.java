@@ -130,8 +130,9 @@ public class Calc {
 		switch(args[0].charAt(0)){
 			case '1':
 			{
-				Num a = new Num(args[1]);
-				Num b = new Num(args[2]);
+				int n = Integer.parseInt(args[1]);
+				Num a = new Num(n, args[2]);
+				Num b = new Num(n, args[3]);
 				Num c = Calc.add(a, b);
 				System.out.println(c);
 			}
@@ -140,8 +141,9 @@ public class Calc {
 				
 			case '2':
 			{
-				Num a = new Num(args[1]);
-				Num b = new Num(args[2]);
+				int n = Integer.parseInt(args[1]);
+				Num a = new Num(n, args[2]);
+				Num b = new Num(n, args[3]);
 				Num c = Calc.subtract(a, b);
 				System.out.println(c);
 			}
@@ -159,8 +161,8 @@ public class Calc {
 		System.out.println("java -jar biercalc.jar [opcja] [arg1 arg2 arg3 ...]");
 		System.out.println();
 		System.out.println(" #  Opis                       Argumenty");
-		System.out.println("[1] Dodawanie w U2              [skladnik] [skladnik]");
-		System.out.println("[2] Odejmowanie w U2            [odjemna] [odjemnik]");
+		System.out.println("[1] Dodawanie w Un              [n] [skladnik] [skladnik]");
+		System.out.println("[2] Odejmowanie w Un            [n] [odjemna] [odjemnik]");
 		System.out.println("[3] Zamiana U2->IEEE-Single     [liczba]");
 		System.out.println("[4] Zamiana U2->IEEE->Double    [liczba]");
 	}
