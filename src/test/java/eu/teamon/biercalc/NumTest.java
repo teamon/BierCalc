@@ -40,6 +40,12 @@ public class NumTest {
 	}
 	
 	@Test
+	public void testConstructor(){
+		assertEquals(new Num(new int[]{1,1,0}, new int[]{1,0,1,1}), new Num("011.1011"));
+		assertEquals(new Num(8, new int[]{3,4,1}, new int[]{0,0,6}), new Num(8, "143.006"));
+	}
+	
+	@Test
 	public void testComplacement(){
 		assertEquals(new Num("011010111.10011").complacement(), new Num("100101000.01101"));
 		assertEquals(new Num("111.11").complacement(), new Num("000.01"));
@@ -67,6 +73,12 @@ public class NumTest {
 	public void testEquals(){
 		assertEquals(new Num("011011.1101"), new Num("011011.1101"));
 	}
+	
+//	@Test
+//	public void testToBase(){
+//		assertEqual(new Num(2, "0.1").toBase(8), new Num(8, "0.4"));
+//	}
+	
 	
     public static void p(int[] a){
         System.out.print("[");

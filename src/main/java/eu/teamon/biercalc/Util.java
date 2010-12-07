@@ -41,10 +41,13 @@ public class Util {
         	for(; i<bits.length && bits[bits.length-i-1] == 0; i++);
     	}
     	
-    	int[] clean = new int[bits.length-i+1];
-    	System.arraycopy(bits, 0, clean, 0, bits.length-i+1);    	
- 
-    	return clean;
+    	if(i > 0){
+        	int[] clean = new int[bits.length-i+1];
+        	System.arraycopy(bits, 0, clean, 0, clean.length);    	
+        	return clean;
+    	} else {
+    		return bits;
+    	}
     }
 
     public static int[] intToBits(int n, int size){
@@ -55,13 +58,93 @@ public class Util {
     	return bits;
     }
     
-     public static int charToInt(char c){
+    public static int charToInt(char c){
 		try {
 			return Integer.parseInt("" + c);
 		} catch (NumberFormatException e){
 			return Integer.decode("0x"+c);
 		}
 	}
+    
+    
+    public static final int[][] baseTo2 = new int[][]{
+    	new int[]{0,0,0,0},
+    	new int[]{1,0,0,0},
+    	new int[]{0,1,0,0},
+    	new int[]{1,1,0,0},
+    	new int[]{0,0,1,0},
+    	new int[]{1,0,1,0},
+    	new int[]{0,1,1,0},
+    	new int[]{1,1,1,0},
+    	new int[]{0,0,0,1},
+    	new int[]{1,0,0,1},
+    	new int[]{0,1,0,1},
+    	new int[]{1,1,0,1},
+    	new int[]{0,0,1,1},
+    	new int[]{1,0,1,1},
+    	new int[]{0,1,1,1},
+    	new int[]{1,1,1,1},
+    };
+    
+    public static int[] baseToBase(int src, int[] bits, int dest){
+    	switch(src){
+    		case 2:
+    		{
+    			switch(dest){
+    				case 8:
+    				{
+    					int res[] = new int[(int)Math.ceil(bits.length/3.0)];
+    					for(int i=0; i<res.length; i++){
+    						res[i] = 4*bitAt(2, bits, 3*i+2) + 2*bitAt(2, bits, 3*i+1) + bitAt(2, bits, 3*i);
+    					}
+    					return res;
+    				}
+    				
+    				case 16:
+    				{
+    					int res[] = new int[(int)Math.ceil(bits.length/4.0)];
+    					for(int i=0; i<res.length; i++){
+    						res[i] = 8*bitAt(2, bits, 4*i+3) + 4*bitAt(2, bits, 4*i+2) + 2*bitAt(2, bits, 4*i+1) + bitAt(2, bits, 4*i);
+    					}
+    					return res;
+    				}
+    					
+    				
+    			}
+    		}
+    	
+    		case 8:
+    		{
+    			switch(dest){
+    				case 2:
+    				{
+    					int res[] = new int[bits.length*3];
+    					for(int i=0; i<bits.length; i++){
+    						System.arraycopy(baseTo2[bits[i]], 0, res, 3*i, 3);
+    					}
+    					return res;
+    				}
+    			}
+    		}
+    		
+    		case 16:
+    		{
+    			switch(dest){
+    				case 2:
+    				{
+    					int res[] = new int[bits.length*4];
+    					for(int i=0; i<bits.length; i++){
+    						System.arraycopy(baseTo2[bits[i]], 0, res, 4*i, 4);
+    					}
+    					return res;
+    				}
+    			}
+    		}
+    	
+    		default:
+    			return null;
+    	}
+    }
 	
     public static void p(int[] a){
         System.out.print("[");

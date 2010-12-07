@@ -9,12 +9,21 @@ public class Num {
 	
 	public int base;
 	
+	public Num(){
+		this(DEFAULT_BASE);
+	}
+	
+	public Num(int base){
+		this.base = base;
+		this.bits = new int[0];
+	}
+	
 	public Num(String str){
 		this(DEFAULT_BASE, str);
 	}
 		
 	public Num(int base, String str){
-		this.base = base;
+		this(base);
 		int pos = str.indexOf('.');
 		int len = str.length();
 		int[] bits;
@@ -38,14 +47,14 @@ public class Num {
 				}
 			}
 		}
-		
+				
 		this.bits = reverse(bits);
 		cleanup();
 	}
 
 	
-	public Num(int base, int[] bits, int pos){
-		this.base = base;
+	public Num(int b, int[] bits, int pos){
+		this(b);
 		this.bits = bits;
 		this.pointPos = pos;
 		cleanup();
@@ -54,6 +63,25 @@ public class Num {
 	public Num(int[] bits, int pos){
 		this(DEFAULT_BASE, bits, pos);
 	}
+	
+	
+	public Num(int b, int[] intBits, int[] fractBits){
+		this(b);
+		
+		this.bits = new int[intBits.length + fractBits.length];
+		int[] fr = reverse(fractBits);
+		System.arraycopy(fr, 0, bits, 0, fr.length);
+		System.arraycopy(intBits, 0, bits, fr.length, intBits.length);
+		
+		this.pointPos = fr.length;
+		p(bits);
+		cleanup();
+	}
+	
+	public Num(int[] intBits, int[] fractBits){
+		this(DEFAULT_BASE, intBits, fractBits);
+	}
+	
 	
 	int[] intPartBits(){
 		if(bits.length == pointPos){
@@ -103,6 +131,10 @@ public class Num {
     	}
     	return buf.toString();
     }
+    
+//    public Num toBase(int b){
+//    	
+//    }
 	
     public boolean equals(Object that){
     	return (that instanceof Num && this.toString().equals(that.toString()));
