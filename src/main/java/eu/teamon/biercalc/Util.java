@@ -3,19 +3,19 @@ package eu.teamon.biercalc;
 public class Util {
     public static int[] bitsComplacement(int base, int[] bits){
         int i;
-        int[] c = new int[bits.length];
+        int[] c = new int[bits.length+1];
 
-        for(i=0; i<bits.length && bits[i]==0; i++){
-            c[i] = bits[i];
+        for(i=0; i<c.length && bitAt(base, bits, i)==0; i++){
+            c[i] = bitAt(base, bits, i);
         }
 
-        c[i] = base - bits[i];
+        c[i] = base - bitAt(base, bits, i);
         i++;
 
-        for(; i<bits.length; i++){
-            c[i] = base - 1 - bits[i];
+        for(; i<c.length; i++){
+            c[i] = base - 1 - bitAt(base, bits, i);
         }
-
+        
         return c;
     }
     

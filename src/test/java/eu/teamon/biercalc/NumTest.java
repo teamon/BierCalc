@@ -41,9 +41,8 @@ public class NumTest {
 	
 	@Test
 	public void testComplacement(){
-		Num a = new Num("011010111.10011");
-		Num b = a.complacement();
-		assertArrayEquals(b.bits, new int[]{1,0,1,1,0,0,0,0,1,0,1,0,0,1});
+		assertEquals(new Num("011010111.10011").complacement(), new Num("100101000.01101"));
+		assertEquals(new Num("111.11").complacement(), new Num("000.01"));
 	}
 	
 	@Test
