@@ -24,4 +24,18 @@ public class CalcTest {
 		assertArrayEquals(Calc.cutLeadingZero(new int[]{0,1}), new int[]{0,1});
 		assertArrayEquals(Calc.cutLeadingZero(new int[]{1,0}), new int[]{1});
 	}
+	
+	@Test
+	public void testNumToSingle(){
+		assertEquals(Calc.numToSingle(new Num("0100010.001")), new SingleNum("0 10000100 00010001000000000000000"));
+		assertEquals(Calc.numToSingle(new Num("1011101.111")), new SingleNum("1 10000100 00010001000000000000000"));
+		assertEquals(Calc.numToSingle(new Num("010")), new SingleNum("0 10000000 00000000000000000000000"));
+	}
+	
+	@Test
+	public void testNumToDouble(){
+		assertEquals(Calc.numToDouble(new Num("0100010.001")), new DoubleNum("0 10000000100 0001000100000000000000000000000000000000000000000000"));
+		assertEquals(Calc.numToDouble(new Num("1011101.111")), new DoubleNum("1 10000000100 0001000100000000000000000000000000000000000000000000"));
+		assertEquals(Calc.numToDouble(new Num("010")), new DoubleNum("0 10000000000 0000000000000000000000000000000000000000000000000000"));
+	}
 }

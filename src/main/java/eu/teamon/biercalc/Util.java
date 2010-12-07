@@ -48,15 +48,20 @@ public class Util {
     }
 
     public static int[] intToBits(int n, int size){
-    	p(n);
-    
     	int[] bits = new int[size];
     	for(int i=0; i<size; i++){
     		bits[i] = (n / (int)Math.pow(2, i)) % 2;
     	}
-    	p(bits);
     	return bits;
     }
+    
+     public static int charToInt(char c){
+		try {
+			return Integer.parseInt("" + c);
+		} catch (NumberFormatException e){
+			return Integer.decode("0x"+c);
+		}
+	}
 	
     public static void p(int[] a){
         System.out.print("[");

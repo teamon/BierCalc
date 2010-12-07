@@ -24,7 +24,7 @@ public class Num {
 			bits = new int[len];
 			    
 			for(int i=0; i<len; i++){
-				bits[i] = parseChar(str.charAt(i));
+				bits[i] = charToInt(str.charAt(i));
 			}			
 		} else {
 			this.pointPos = len-pos-1;
@@ -32,9 +32,9 @@ public class Num {
 			
 			for(int i=0; i<len; i++){
 				if(i < pos){
-					bits[i] = parseChar(str.charAt(i));
+					bits[i] = charToInt(str.charAt(i));
 				} else if(i > pos){
-					bits[i-1] = parseChar(str.charAt(i));
+					bits[i-1] = charToInt(str.charAt(i));
 				}
 			}
 		}
@@ -107,14 +107,6 @@ public class Num {
     public boolean equals(Object that){
     	return (that instanceof Num && this.toString().equals(that.toString()));
     }
-
-	protected int parseChar(char c){
-		try {
-			return Integer.parseInt("" + c);
-		} catch (NumberFormatException e){
-			return Integer.decode("0x"+c);
-		}
-	}
 	
 	protected int[] reverse(int[] tab){
 		int[] res = new int[tab.length];

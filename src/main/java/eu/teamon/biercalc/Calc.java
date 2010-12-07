@@ -51,47 +51,58 @@ public class Calc {
 		return add(a, b.complacement());
 	}
 	
-	public static FNum numToFNum(Num n){
+	// IEEE
+	
+	public static SingleNum numToSingle(Num n){
+		return new SingleNum(numToIEEE(n, SingleNum.MAN_SIZE));
+	}
+	
+	public static DoubleNum numToDouble(Num n){
+		return new DoubleNum(numToIEEE(n, DoubleNum.MAN_SIZE));
+	}
+	
+	public static IEEEResult numToIEEE(Num n, int manSize){
 		if(n.base != 2){
-			return numToFNum(n); // TODO: Call n.toBase(2);
+			return numToIEEE(n, manSize); // TODO: Call n.toBase(2);
 		}
 		
-		int sign;
+		IEEEResult res = new IEEEResult();
+		
 		if(n.isNegative()){
-			sign = 1;
+			res.sign = 1;
 			n = n.complacement();
 		} else {
-			sign = 0;
+			res.sign = 0;
 		}
-				
-		int[] man = new int[FNum.MAN_SIZE];
-		int exp=0;
+						
+		res.man = new int[manSize];
+		res.exp=0;
 
 		int[] intPart = cutLeadingZero(n.intPartBits());
 		int[] fractPart = n.fractPartBits();
 		
 		if(intPart.length == 1){
 			if(intPart[0] == 1){
-				System.arraycopy(fractPart, 0, man, 0, fractPart.length);
-				exp = 0;
+				System.arraycopy(fractPart, 0, res.man, 0, fractPart.length);
+				res.exp = 0;
 			} else { // intPart[0] == 0
 				// liczba postaci 0.xxxxxx -> trzeba przesunac w prawo
 				int p = leadingZeros(fractPart);
-				System.arraycopy(fractPart, p, man, 0, fractPart.length-p);
-				exp = -p;
+				System.arraycopy(fractPart, p, res.man, 0, fractPart.length-p);
+				res.exp = -p;
 			}
 		} else {
 			// przesuniecie przecinka w lewo
 			int p = intPart.length-1;
 			for(int i=0; i<p; i++){
-				man[i] = intPart[p-i-1];
+				res.man[i] = intPart[p-i-1];
 			}
 			
-			System.arraycopy(fractPart, 0, man, p, fractPart.length);			
-			exp = p;
+			System.arraycopy(fractPart, 0, res.man, p, fractPart.length);			
+			res.exp = p;
 		}
 		
-		return new FNum(sign, exp, man);
+		return res;
 	}
 	
 	protected static int leadingZeros(int[] fract){
@@ -112,7 +123,7 @@ public class Calc {
 	
 	public static void main(String[] args){
 		Num a = new Num(args[0]);
-		FNum f = Calc.numToFNum(a);
+		DoubleNum f = Calc.numToDouble(a);
 		System.out.println(a);
 		System.out.println(f);
 //		Num b = new Num(args[1]);
