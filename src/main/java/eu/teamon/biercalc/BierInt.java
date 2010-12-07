@@ -16,6 +16,7 @@ public class BierInt {
 
     public BierInt(int base, String raw){
         this.base = base;
+        // this.dot = raw.indexOf('.');
         this.bits = stringToBits(raw);
     }
 
