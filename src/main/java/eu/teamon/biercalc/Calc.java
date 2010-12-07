@@ -51,6 +51,31 @@ public class Calc {
 		return add(a, b.complacement());
 	}
 	
+	public static FNum numToFNum(Num n){
+		if(n.base != 2){
+			return numToFNum(n); // TODO: Call n.toBase(2);
+		}
+				
+		int[] man = new int[FNum.MAN_SIZE];
+		int exp=0;
+		
+		int[] intPart = n.intPartBits();
+		
+		if(intPart.length == 1){
+			if(intPart[0] == 1){
+				
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		return new FNum(n.isNegative() ? 1 : 0, exp, man);
+	}
+	
 	
 	public static void main(String[] args){
 		Num a = new Num(args[0]);

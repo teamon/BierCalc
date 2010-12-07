@@ -47,6 +47,16 @@ public class Util {
     	return clean;
     }
 
+    public static int[] intToBits(int n, int size){
+    	p(n);
+    
+    	int[] bits = new int[size];
+    	for(int i=0; i<size; i++){
+    		bits[i] = (n / (int)Math.pow(2, i)) % 2;
+    	}
+    	p(bits);
+    	return bits;
+    }
 	
     public static void p(int[] a){
         System.out.print("[");
