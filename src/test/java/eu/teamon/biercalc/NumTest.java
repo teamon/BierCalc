@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 public class NumTest {
 	@Test 
-	public void stringToNum() {
+	public void testStringToNum() {
 		Num a = new Num("011010111.10011");
 		assertTrue(a.pointPos == 5);
 		assertArrayEquals(a.bits, new int[]{1,1,0,0,1,1,1,1,0,1,0,1,1,0});
@@ -20,20 +20,31 @@ public class NumTest {
 	}
 	
 	@Test
-	public void complacement(){
+	public void testComplacement(){
 		Num a = new Num("011010111.10011");
 		Num b = a.complacement();
 		assertArrayEquals(b.bits, new int[]{1,0,1,1,0,0,0,0,1,0,1,0,0,1});
 	}
 	
 	@Test
-	public void isNegative(){
+	public void testIsNegative(){
 		Num a;
 		a = new Num("011010111.10011");
 		assertFalse(a.isNegative());
 		
 		a = new Num("111010111.10011");
 		assertTrue(a.isNegative());
+	}
+	
+	@Test
+	public void testToString(){
+		assertEquals(new Num("011010111.10011").toString(), "011010111.10011");
+		assertEquals(new Num("111010111.0").toString(), "111010111.0");
+	}
+	
+	@Test
+	public void testEquals(){
+		assertEquals(new Num("011011.1101"), new Num("011011.1101"));
 	}
 	
     public static void p(int[] a){

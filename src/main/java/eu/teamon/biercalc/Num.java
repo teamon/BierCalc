@@ -1,24 +1,6 @@
 package eu.teamon.biercalc;
 
-class Util {
-    public static int[] bitsComplacement(int[] bits, int base){
-        int i;
-        int[] c = new int[bits.length];
-
-        for(i=0; i<bits.length && bits[i]==0; i++){
-            c[i] = bits[i];
-        }
-
-        c[i] = base - bits[i];
-        i++;
-
-        for(; i<bits.length; i++){
-            c[i] = base - 1 - bits[i];
-        }
-
-        return c;
-    }
-}
+import static eu.teamon.biercalc.Util.*;
 
 public class Num {
 	public static final int DEFAULT_BASE = 2;
@@ -41,9 +23,9 @@ public class Num {
 			this.pointPos = 0;
 			bits = new int[len];
 			    
-			    	for(int i=0; i<len; i++){
-			            bits[i] = parseChar(str.charAt(i));
-			        }			
+			for(int i=0; i<len; i++){
+				bits[i] = parseChar(str.charAt(i));
+			}			
 		} else {
 			this.pointPos = len-pos-1;
 			bits = new int[len-1];
@@ -57,13 +39,13 @@ public class Num {
 			}
 		}
 		
-		this.bits = reverse(bits);
+		this.bits = bitsCleanup(2, reverse(bits));
 	}
 
 	
 	public Num(int base, int[] bits, int pos){
 		this.base = base;
-		this.bits = bits;
+		this.bits = bitsCleanup(2, bits);
 		this.pointPos = pos;
 	}
 	
@@ -72,6 +54,8 @@ public class Num {
 	}
 	
 	int[] intPartBits(){
+		p(this.bits.length);
+		p(pointPos);
 		int len = this.bits.length - pointPos;
 		int[] part = new int[len];
 		for(int i=0; i<len; i++){
@@ -91,14 +75,27 @@ public class Num {
 	}
 	
 	Num complacement(){
-		return new Num(Util.bitsComplacement(this.bits, this.base), this.pointPos);
+		return new Num(Util.bitsComplacement(this.base, this.bits), this.pointPos);
 	}
 	
     public boolean isNegative(){
-        if(bits.length != 0) return bits[bits.length-1] >= this.base/2;
-        else return false;
+        return Util.isNegative(this.base, this.bits);
+    }
+    
+    public String toString(){
+    	StringBuffer buf = new StringBuffer();
+    	
+    	for(int i : intPartBits()) buf.append(i);
+    	buf = buf.reverse();
+    	buf.append('.');
+     	for(int i : fractPartBits()) buf.append(i);
+      	
+    	return buf.toString();
     }
 	
+    public boolean equals(Object that){
+    	return (that instanceof Num && this.toString().equals(that.toString()));
+    }
 
 	protected int parseChar(char c){
 		try {
