@@ -122,14 +122,46 @@ public class Calc {
 	}
 	
 	public static void main(String[] args){
-		Num a = new Num(args[0]);
-		DoubleNum f = Calc.numToDouble(a);
-		System.out.println(a);
-		System.out.println(f);
-//		Num b = new Num(args[1]);
-//		Num c = Calc.subtract(a, b);
-//		System.out.println(a);
-//		System.out.println(b);
-//		System.out.println(c);
+		if(args.length < 1) {
+			printUsage();
+			return;
+		}
+		
+		switch(args[0].charAt(0)){
+			case '1':
+			{
+				Num a = new Num(args[1]);
+				Num b = new Num(args[2]);
+				Num c = Calc.add(a, b);
+				System.out.println(c);
+			}
+			break;
+				
+				
+			case '2':
+			{
+				Num a = new Num(args[1]);
+				Num b = new Num(args[2]);
+				Num c = Calc.subtract(a, b);
+				System.out.println(c);
+			}
+			break;
+			
+			default:
+				printUsage();
+				break;
+		}
+		
+	}
+	
+	public static void printUsage(){
+		// Usage
+		System.out.println("java -jar biercalc.jar [opcja] [arg1 arg2 arg3 ...]");
+		System.out.println();
+		System.out.println(" #  Opis                       Argumenty");
+		System.out.println("[1] Dodawanie w U2              [skladnik] [skladnik]");
+		System.out.println("[2] Odejmowanie w U2            [odjemna] [odjemnik]");
+		System.out.println("[3] Zamiana U2->IEEE-Single     [liczba]");
+		System.out.println("[4] Zamiana U2->IEEE->Double    [liczba]");
 	}
 }
