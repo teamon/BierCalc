@@ -74,10 +74,14 @@ public class NumTest {
 		assertEquals(new Num("011011.1101"), new Num("011011.1101"));
 	}
 	
-//	@Test
-//	public void testToBase(){
-//		assertEqual(new Num(2, "0.1").toBase(8), new Num(8, "0.4"));
-//	}
+	@Test
+	public void testToBase(){
+		assertEquals(new Num(2, "0.1").toBase(8), new Num(8, "0.4"));
+		assertEquals(new Num(2, "0.1").toBase(16), new Num(16, "0.8"));
+		assertEquals(new Num(2, "0.11").toBase(16), new Num(16, "0.c"));
+		assertEquals(new Num(2, "0.101").toBase(16), new Num(16, "0.a"));
+		assertEquals(new Num(2, "0.111").toBase(16), new Num(16, "0.e"));
+	}
 	
 	
     public static void p(int[] a){

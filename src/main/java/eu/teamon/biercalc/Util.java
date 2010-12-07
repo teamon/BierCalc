@@ -21,11 +21,15 @@ public class Util {
     
     public static boolean isNegative(int base, int[] bits){
         return (bits.length != 0 && bits[bits.length-1] >= base/2);
-   }
+    }
     
     public static int bitAt(int base, int[] bits, int index){
+    	return bitAt(base, bits, index, false);
+    }
+    
+    public static int bitAt(int base, int[] bits, int index, boolean fillWithZeros){
         if(index >= bits.length) {
-            if(Util.isNegative(base, bits)) return base-1;
+            if(!fillWithZeros && Util.isNegative(base, bits)) return base-1;
             else return 0;
         } else {
             return bits[index];
@@ -86,7 +90,14 @@ public class Util {
     	new int[]{1,1,1,1},
     };
     
+
     public static int[] baseToBase(int src, int[] bits, int dest){
+    	return baseToBase(src, bits, dest, false);
+    }
+    
+    public static int[] baseToBase(int src, int[] bits, int dest, boolean fillWithZeros){
+    	if(src == dest) return bits;
+    	
     	switch(src){
     		case 2:
     		{
@@ -95,7 +106,8 @@ public class Util {
     				{
     					int res[] = new int[(int)Math.ceil(bits.length/3.0)];
     					for(int i=0; i<res.length; i++){
-    						res[i] = 4*bitAt(2, bits, 3*i+2) + 2*bitAt(2, bits, 3*i+1) + bitAt(2, bits, 3*i);
+    						if(fillWithZeros) res[i] = 4*bitAt(2, bits, 3*i, true) + 2*bitAt(2, bits, 3*i+1, true) + bitAt(2, bits, 3*i+2, true);
+    						else res[i] = 4*bitAt(2, bits, 3*i+2) + 2*bitAt(2, bits, 3*i+1) + bitAt(2, bits, 3*i);
     					}
     					return res;
     				}
@@ -104,8 +116,9 @@ public class Util {
     				{
     					int res[] = new int[(int)Math.ceil(bits.length/4.0)];
     					for(int i=0; i<res.length; i++){
-    						res[i] = 8*bitAt(2, bits, 4*i+3) + 4*bitAt(2, bits, 4*i+2) + 2*bitAt(2, bits, 4*i+1) + bitAt(2, bits, 4*i);
-    					}
+    						if(fillWithZeros) res[i] = 8*bitAt(2, bits, 4*i, true) + 4*bitAt(2, bits, 4*i+1, true) + 2*bitAt(2, bits, 4*i+2, true) + bitAt(2, bits, 4*i+3, true);
+    						else res[i] = 8*bitAt(2, bits, 4*i+3) + 4*bitAt(2, bits, 4*i+2) + 2*bitAt(2, bits, 4*i+1) + bitAt(2, bits, 4*i);
+        					}
     					return res;
     				}
     					
@@ -124,6 +137,10 @@ public class Util {
     					}
     					return res;
     				}
+    				case 16:
+    				{
+    					return baseToBase(2, baseToBase(8, bits, 2, fillWithZeros), 16, fillWithZeros);
+    				}
     			}
     		}
     		
@@ -138,6 +155,10 @@ public class Util {
     					}
     					return res;
     				}
+    				case 8:
+    				{
+    					return baseToBase(2, baseToBase(16, bits, 2, fillWithZeros), 8, fillWithZeros);
+    				}
     			}
     		}
     	
@@ -145,6 +166,15 @@ public class Util {
     			return null;
     	}
     }
+    
+	public static int[] reverse(int[] bits){
+		int[] res = new int[bits.length];
+		
+		for(int i=0; i<bits.length; i++){
+			res[bits.length-i-1] = bits[i];
+		}
+		return res;
+	}
 	
     public static void p(int[] a){
         System.out.print("[");

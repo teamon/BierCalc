@@ -74,7 +74,6 @@ public class Num {
 		System.arraycopy(intBits, 0, bits, fr.length, intBits.length);
 		
 		this.pointPos = fr.length;
-		p(bits);
 		cleanup();
 	}
 	
@@ -132,23 +131,18 @@ public class Num {
     	return buf.toString();
     }
     
-//    public Num toBase(int b){
-//    	
-//    }
+    public Num toBase(int b){
+    	int[] intp = baseToBase(base, intPartBits(), b);
+    	int[] fractp = reverse(baseToBase(base, reverse(fractPartBits()), b, true));
+    	
+    	return new Num(b, intp, fractp);
+    }
 	
     public boolean equals(Object that){
     	return (that instanceof Num && this.toString().equals(that.toString()));
     }
 	
-	protected int[] reverse(int[] tab){
-		int[] res = new int[tab.length];
-		
-		for(int i=0; i<tab.length; i++){
-			res[tab.length-i-1] = tab[i];
-		}
-		return res;
-	}
-	
+
 	protected void cleanup(){
 		this.bits = bitsCleanup(base, bits);
 		fractPartCleanup();

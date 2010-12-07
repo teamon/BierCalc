@@ -149,6 +149,26 @@ public class Calc {
 			}
 			break;
 			
+			case '3':
+			{
+				System.out.println(numToSingle(new Num(args[1])));
+			}
+			break;
+			
+			case '4':
+			{
+				System.out.println(numToDouble(new Num(args[1])));
+			}
+			break;
+			
+			case '5':
+			{
+				int a = Integer.parseInt(args[1]);
+				int b = Integer.parseInt(args[2]);
+				System.out.println(new Num(a, args[3]).toBase(b));
+			}
+			break;
+			
 			default:
 				printUsage();
 				break;
@@ -160,10 +180,11 @@ public class Calc {
 		// Usage
 		System.out.println("java -jar biercalc.jar [opcja] [arg1 arg2 arg3 ...]");
 		System.out.println();
-		System.out.println(" #  Opis                       Argumenty");
+		System.out.println(" #  Opis                        Argumenty");
 		System.out.println("[1] Dodawanie w Un              [n] [skladnik] [skladnik]");
 		System.out.println("[2] Odejmowanie w Un            [n] [odjemna] [odjemnik]");
-		System.out.println("[3] Zamiana U2->IEEE-Single     [liczba]");
-		System.out.println("[4] Zamiana U2->IEEE->Double    [liczba]");
+		System.out.println("[3] Zamiana U2->IEEE-Single     [liczba w U2]");
+		System.out.println("[4] Zamiana U2->IEEE-Double     [liczba w U2]");
+		System.out.println("[5] Zamiana Ux->Uy              [x] [y] [liczba w Ux]");
 	}
 }
