@@ -47,11 +47,15 @@ public class Calc {
 		return new Num(a.base, sum, pointPos);
 	}
 	
+	public static Num subtract(Num a, Num b){
+		return add(a, b.complacement());
+	}
+	
 	
 	public static void main(String[] args){
 		Num a = new Num(args[0]);
 		Num b = new Num(args[1]);
-		Num c = Calc.add(a, b);
+		Num c = Calc.subtract(a, b);
 		System.out.println(a);
 		System.out.println(b);
 		System.out.println(c);
